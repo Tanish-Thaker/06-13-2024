@@ -15,9 +15,16 @@ library(ggplot2)
 ```{r}
 #| echo: false
 #| message: false
-read_csv("data/mass-tracts.csv")|> 
-  ggplot(data, aes(x = med_income, fill = race)) +
-  geom_density(alpha = 0.5) +
+x <- read_csv("data/mass-tracts.csv")
+```
+
+```{r}
+#| echo: false
+#| message: false
+x |> drop_na() |>
+ ggplot(aes(x = med_income, fill = race)) +
+  geom_density(alpha = 0.5,
+               bw = 25000) +
   scale_x_continuous(labels = scales::dollar_format()) +
   labs(
     title = "Median Income for Massachusetts Census Tracts",
@@ -25,13 +32,11 @@ read_csv("data/mass-tracts.csv")|>
     x = "Median Income",
     y = "",
     fill = "Race",
-    caption = "The race of each tract is determined by the most numerous racial group present in that tract. Data from the American Community Survey 2022."
+    caption = "The race of each tract is determined by the most numerous racial group present in that tract.\n Data from the American Community Survey 2022."
   ) +
   theme_minimal(base_size = 14) +
-  theme(
-    plot.title = element_text(size = 20, face = "bold"),
-    plot.subtitle = element_text(size = 16),
-    plot.caption = element_text(size = 10, hjust = 0),
+  theme(aspect.ratio = 0.4,
+        axis.text.y = element_blank(),
     legend.position = "right"
   )
 ```
