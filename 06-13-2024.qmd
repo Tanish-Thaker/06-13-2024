@@ -1,0 +1,38 @@
+---
+title: "Mass Tracts"
+author: "Tanish Thaker"
+format: html
+---
+
+```{r}
+#| echo: false
+#| message: false
+library(tidyverse)
+library(dplyr)
+library(ggplot2)
+```
+
+```{r}
+#| echo: false
+#| message: false
+read_csv("data/mass-tracts.csv")|> 
+  ggplot(data, aes(x = med_income, fill = race)) +
+  geom_density(alpha = 0.5) +
+  scale_x_continuous(labels = scales::dollar_format()) +
+  labs(
+    title = "Median Income for Massachusetts Census Tracts",
+    subtitle = "The richest tracts are White",
+    x = "Median Income",
+    y = "",
+    fill = "Race",
+    caption = "The race of each tract is determined by the most numerous racial group present in that tract. Data from the American Community Survey 2022."
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(
+    plot.title = element_text(size = 20, face = "bold"),
+    plot.subtitle = element_text(size = 16),
+    plot.caption = element_text(size = 10, hjust = 0),
+    legend.position = "right"
+  )
+```
+
